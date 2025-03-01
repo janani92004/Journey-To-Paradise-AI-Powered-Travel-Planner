@@ -5,26 +5,24 @@ import os
 import random
 import requests
 
-os.environ['GOOGLE_API_KEY'] = 'AIzaSyCEgpFZZGIJB8BauDTb9LjDg4pzVZmM-Gw'  # Replace with your actual Google Gemini API key
+os.environ['GOOGLE_API_KEY'] = 'YOUR API KEY'  
 llm = GoogleGenerativeAI(model="gemini-1.5-pro-latest")
-
-# API Keys (Replace with your actual keys)
-UNSPLASH_ACCESS_KEY = "GSJvNBNR4b6vuDG6JvXbrUaALIUGw7qLtj5w2ubnfwo"
-YOUTUBE_API_KEY = "AIzaSyDLsH9JW3OeXeEIErO15IYYhAQnhAfBFFQ"
+UNSPLASH_ACCESS_KEY = "YOUR API KEY"
+YOUTUBE_API_KEY = "YOUR API KEY"
 
 st.title('🌍 Journey to Paradise: Your AI Travel Buddy')
 
-# Sidebar for choosing between trip options
+
 st.sidebar.title("✈️ Choose Your Adventure")
 option = st.sidebar.radio("Select an option:", ["Plan My Own Trip", "Surprise Me!"])
 
-# Function to fetch an image from Unsplash
+
 def get_unsplash_image(destination):
     url = f"https://api.unsplash.com/photos/random?query={destination}&client_id={UNSPLASH_ACCESS_KEY}"
     response = requests.get(url).json()
     return response.get("urls", {}).get("regular", "")
 
-# Function to fetch a travel video from YouTube API
+
 def get_youtube_video(destination):
     search_url = f"https://www.googleapis.com/youtube/v3/search?part=snippet&q={destination}+travel+guide&type=video&key={YOUTUBE_API_KEY}&maxResults=1"
     response = requests.get(search_url).json()
@@ -33,12 +31,12 @@ def get_youtube_video(destination):
         return f"https://www.youtube.com/embed/{video_id}"
     return ""
 
-# Function to estimate travel costs
+
 def estimate_travel_costs(distance):
-    flight_cost = max(50, distance * 0.15 * 10)  # $0.15 per km, min $50
-    train_cost = max(20, distance * 0.08 * 10)  # $0.08 per km, min $20
-    bus_cost = max(10, distance * 0.05 * 10)    # $0.05 per km, min $10
-    car_cost = max(15, distance * 0.12 * 10)    # $0.12 per km, min $15
+    flight_cost = max(50, distance * 0.15 * 10)  
+    train_cost = max(20, distance * 0.08 * 10)  
+    bus_cost = max(10, distance * 0.05 * 10)   
+    car_cost = max(15, distance * 0.12 * 10)    
     return flight_cost, train_cost, bus_cost, car_cost
 
 if option == "Plan My Own Trip":
@@ -62,7 +60,7 @@ if option == "Plan My Own Trip":
             st.subheader('🗺️ Your AI-Generated Travel Plan:')
             st.write(response)
             
-            distance = random.uniform(500, 8000)  # Simulated distance in km
+            distance = random.uniform(500, 8000)  
             flight, train, bus, car = estimate_travel_costs(distance)
             st.subheader('💰 Estimated Travel Costs:')
             st.write(f'✈️ Flight: ₹{flight:.2f}')
